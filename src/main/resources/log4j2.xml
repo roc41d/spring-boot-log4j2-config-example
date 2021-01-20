@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" monitorInterval="30">
+    <Properties>
+        <Property name="basePath">PATH_TO_STORE_LOG_FILES</Property>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %c{1.} %t [%p] %msg%n</Property>
+        <Property name="DEFAULT_LOG_LEVEL">INFO</Property>
+        <property name="patternMetrics">%d %-8r %m%n</property>
+    </Properties>
+
+    <Appenders>
+        <RollingFile name="RollingFileApplication" fileName="${basePath}\\Application.log" filePattern="${basePath}\\Application-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/> <!-- Or every 400 MB -->
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="RollingFileDemoService" fileName="${basePath}\\DemoService.log" filePattern="${basePath}\\DemoService-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/> <!-- Or every 400 MB -->
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="RollingFileDefault"
+                     fileName="${basePath}\\default.log"
+                     filePattern="${basePath}\\default-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/> <!-- Or every 400 MB -->
+            </Policies>
+        </RollingFile>
+
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="io.roc41d.log4j2config.Application" level="${DEFAULT_LOG_LEVEL}">
+            <AppenderRef ref="RollingFileApplication"/>
+        </Logger>
+
+        <Logger name="io.roc41d.log4j2config.service.DemoService" level="${DEFAULT_LOG_LEVEL}">
+            <AppenderRef ref="RollingFileDemoService"/>
+        </Logger>
+
+        <Root level="INFO">
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>
